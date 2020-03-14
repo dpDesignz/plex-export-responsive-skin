@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head profile="http://www.w3.org/2005/10/profile">
 	<meta charset=utf-8 />
 	<title>Plex Export</title>
@@ -12,16 +13,16 @@
 	<script src="assets/js/utils.js"></script>
 	<script src="assets/js/plex.js"></script>
 	<script>
-	ready(() => {
-		PLEX.run();
-	});
+		ready(() => {
+			PLEX.run();
+		});
 	</script>
 </head>
 
 <body>
 	<header id="header">
-			<h1><span>Plex Export</span></h1>
-			<p><span>Library Items</span> <strong id="total_items"></strong></p>
+		<h1><span>Plex Export</span></h1>
+		<p><span>Library Items</span> <strong id="total_items"></strong></p>
 	</header><!-- end #header -->
 	<main class="container">
 		<aside id="sidebar">
@@ -29,7 +30,9 @@
 			<section id="sidebar-menu">
 				<div class="sidebar-section">
 					<h2>Library</h2>
-					<ul class="sections-list" id="plex_section_list"><li>Loading...</li></ul>
+					<ul class="sections-list" id="plex_section_list">
+						<li>Loading...</li>
+					</ul>
 				</div><!-- end .sidebar-section -->
 				<div class="sidebar-section">
 					<h2>Sort</h2>
@@ -75,9 +78,11 @@
 		</main><!-- end #main -->
 	</main><!-- end #container -->
 	<footer id="footer">
-		<p><a href="https://www.plex.tv/">Plex</a> + <a href="http://hybridlogic.co.uk/code/standalone/plex-export/">Plex Export</a><span id="last_updated"></span></p>
+		<p><a href="https://www.plex.tv/">Plex</a> + <a href="http://hybridlogic.co.uk/code/standalone/plex-export/">Plex
+				Export</a><span id="last_updated"></span></p>
 	</footer><!-- end #footer -->
 	<div id="popup-overlay"></div>
 	<div id="popup-container"></div>
 </body>
+
 </html>
