@@ -1,3 +1,8 @@
+var ready = (callback) => {
+	if (document.readyState != "loading") callback();
+	else document.addEventListener("DOMContentLoaded", callback);
+}
+
 function episode_tag(season, episode) {
 	var s = season.index;
 	var e = episode.index;
