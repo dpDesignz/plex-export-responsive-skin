@@ -1,6 +1,8 @@
 # plex-export-responsive-skin
 
- A responsive skin for use the with [Plex-Export](https://github.com/Dachande663/Plex-Export) script from Dachande663, with some slight changes and fixes in the `plex.js` file
+A responsive skin for use the with [Plex-Export](https://github.com/Dachande663/Plex-Export) script from Dachande663, with some slight changes and fixes in the `plex.js` file
+
+**[View Demo](https://www.dpdesignz.co/github/demos/plex-export-responsive-skin/)**
 
 ## Installation
 
