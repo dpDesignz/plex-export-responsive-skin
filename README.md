@@ -10,7 +10,7 @@ Simply [download a copy of this repo](https://github.com/dpDesignz/plex-export-r
 
 I have re-written the `plex.js` file in vanilla javascript which you are welcome to try. Just change the `<script src="assets/js/plex.js"></script>` line to `<script src="assets/js/vanilla-plex.js"></script>` and remove the requirement for `jquery.1.4.4`.
 
-**IMPORTANT NOTE: As this is coded with ES6+, this will NOT work with Internet Explorer.**
+**IMPORTANT NOTE: As the vanilla javascript file is coded with ES6+ it will NOT work with Internet Explorer.**
 
 I have commented as much of the code as I've completed to make it easier if you want to help debug anything.
 
