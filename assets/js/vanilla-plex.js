@@ -28,7 +28,9 @@ const PLEX = {
   popup_visible: false,
   last_updated: 'none',
 
-  // Load the data
+  /*!
+   * Load the data from the plex-data/data.js file
+   */
   load_data(aData) {
     // Check if aData is set
     if (
@@ -48,7 +50,9 @@ const PLEX = {
     PLEX.data_loaded = true; // Set the data loaded bool
   }, // end func: load_data
 
-  // Display the sections list
+  /*!
+   * Display the sections list in the sidebar
+   */
   display_sections_list() {
     // Init the section list html
     let sectionListHTML = '';
@@ -66,7 +70,9 @@ const PLEX = {
     PLEX._sections_list.innerHTML = sectionListHTML;
   }, // end func: display_sections_list
 
-  // Display a section
+  /*!
+   * Display a section in the main area
+   */
   display_section(sectionIDIn) {
     const sectionID = parseInt(sectionIDIn);
 
@@ -117,8 +123,70 @@ const PLEX = {
     // Output the items
     PLEX.display_items();
 
+    // Listen for click on item
+    PLEX._item_list.querySelectorAll('li').forEach(itemListItem =>
+      itemListItem.addEventListener('click', () => {
+        // Display the selected item
+        PLEX.display_item(itemListItem.dataset.item);
+      })
+    );
+
     // Output the genre list
     PLEX.display_genre_list(PLEX.current_section.genres);
+
+    // Listen for click on genre list items
+    PLEX._genre_list.querySelectorAll('li').forEach(genreListItem =>
+      genreListItem.addEventListener('click', () => {
+        // Change the selected genre
+        PLEX.change_genre(genreListItem.dataset.genre);
+      })
+    );
+
+    // Listen for click on show all genres
+    PLEX._genre_list
+      .querySelector('#genre_show_all')
+      .addEventListener('click', () => {
+        // Set show all genres as true
+        PLEX.show_all_genres = true;
+
+        // Show the hidden genres
+        PLEX._genre_list
+          .querySelectorAll('.genre_hidden')
+          .forEach(genreHiddenElm => {
+            genreHiddenElm.style.display = 'grid';
+          });
+
+        // Hide the genres "hide all" button
+        PLEX._genre_list.querySelector('#genre_show_all').style.display =
+          'none';
+
+        // Show the genres "show all" button
+        PLEX._genre_list.querySelector('#genre_hide_all').style.display =
+          'grid';
+      });
+
+    // Listen for click on hide all genres
+    PLEX._genre_list
+      .querySelector('#genre_hide_all')
+      .addEventListener('click', () => {
+        // Set show all genres as false
+        PLEX.show_all_genres = false;
+
+        // Hide the hidden genres
+        PLEX._genre_list
+          .querySelectorAll('.genre_hidden')
+          .forEach(genreHiddenElm => {
+            genreHiddenElm.style.display = 'none';
+          });
+
+        // Show the genres "hide all" button
+        PLEX._genre_list.querySelector('#genre_show_all').style.display =
+          'grid';
+
+        // Hide the genres "show all" button
+        PLEX._genre_list.querySelector('#genre_hide_all').style.display =
+          'none';
+      });
 
     const itemsToShowDirectorsFor = PLEX.filter_items_by_genre(
       PLEX.current_section.items,
@@ -168,11 +236,81 @@ const PLEX = {
     // Output the list of directors
     PLEX.display_director_list(itemCount, directors);
 
+    // Listen for click on director list items
+    PLEX._director_list.querySelectorAll('li').forEach(directorListItem =>
+      directorListItem.addEventListener('click', () => {
+        // Change the selected director
+        PLEX.change_director(directorListItem.dataset.director);
+      })
+    );
+
+    // Listen for click on show all directors
+    const directorShowAllBtn = PLEX._director_list.querySelector(
+      '#director_show_all'
+    );
+    if (directorShowAllBtn) {
+      directorShowAllBtn.addEventListener('click', () => {
+        // Set show all directors as true
+        PLEX.show_all_directors = true;
+
+        // Show the hidden directors
+        PLEX._director_list
+          .querySelectorAll('.director_hidden')
+          .forEach(directorHiddenElm => {
+            directorHiddenElm.style.display = 'grid';
+          });
+
+        // Hide the directors "hide all" button
+        PLEX._director_list.querySelector('#director_show_all').style.display =
+          'none';
+
+        // Show the directors "show all" button
+        PLEX._director_list.querySelector('#director_hide_all').style.display =
+          'grid';
+      });
+    }
+
+    // Listen for click on hide all directors
+    const directorHideAllBtn = PLEX._director_list.querySelector(
+      '#director_hide_all'
+    );
+    if (directorHideAllBtn) {
+      directorHideAllBtn.addEventListener('click', () => {
+        // Set show all directors as false
+        PLEX.show_all_genres = false;
+
+        // Hide the hidden directors
+        PLEX._director_list
+          .querySelectorAll('.director_hidden')
+          .forEach(directorHiddenElm => {
+            directorHiddenElm.style.display = 'none';
+          });
+
+        // Show the directors "hide all" button
+        PLEX._director_list.querySelector('#director_show_all').style.display =
+          'grid';
+
+        // Hide the directors "show all" button
+        PLEX._director_list.querySelector('#director_hide_all').style.display =
+          'none';
+      });
+    }
+
     // Output the list of seen items
     PLEX.display_seen_list('all');
+
+    // Listen for click on seen list items
+    PLEX._seen_list.querySelectorAll('li').forEach(seenListItem =>
+      seenListItem.addEventListener('click', () => {
+        // Change the selected seen status
+        PLEX.change_seen(seenListItem.dataset.seen);
+      })
+    );
   }, // end func: display_section
 
-  // Display the genre list
+  /*!
+   * Display the genre list in the sidebar
+   */
   display_genre_list(genres) {
     // Check if there are any genres set
     if (genres.length === 0) {
@@ -252,7 +390,9 @@ const PLEX = {
     PLEX._genre_list_section.style.display = 'block';
   }, // end func: display_genre_list
 
-  // Display the director list
+  /*!
+   * Display the director list in the sidebar for movies
+   */
   display_director_list(totalCount, directors) {
     // Check if there are any directors set
     if (directors.length === 0) {
@@ -338,8 +478,10 @@ const PLEX = {
     PLEX._director_list_section.style.display = 'block';
   }, // end func: display_director_list
 
-  // Display the seen list
-  display_seen_list(seen) {
+  /*!
+   * Display the seen list in the sidebar for movies
+   */
+  display_seen_list() {
     // Check the current section type isn't a movie
     if (PLEX.current_section.type !== 'movie') {
       // Hide the seen list section
@@ -397,7 +539,9 @@ const PLEX = {
   }, // end func: display_seen_list
 
   // TODO Find out what trigger scroll is used for
-  // Display items
+  /*!
+   * Display current section items
+   */
   display_items() {
     // Init items as current section
     let { items } = PLEX.current_section;
@@ -471,7 +615,9 @@ const PLEX = {
     // $(document).trigger("scroll");
   }, // end func: display_items
 
-  // Filter items by term
+  /*!
+   * Filter items by search term
+   */
   filter_items_by_term(allItems, termIn) {
     // Init the term as lowercase value
     const term = termIn.toLowerCase();
@@ -496,7 +642,9 @@ const PLEX = {
     return itemsToShow;
   }, // end func: filter_items_by_term
 
-  // Filter items by genre
+  /*!
+   * Filter items by selected genre
+   */
   filter_items_by_genre(allItems, genre) {
     // Check if the genre is "all" and return all items if it is
     if (genre === 'all') return allItems;
@@ -516,7 +664,9 @@ const PLEX = {
     return itemsToShow;
   }, // end func: filter_items_by_genre
 
-  // Filter items by director
+  /*!
+   * Filter items by selected director
+   */
   filter_items_by_director(allItems, director) {
     // Check if the director is "all" and return all items if it is
     if (director === 'all') return allItems;
@@ -537,7 +687,9 @@ const PLEX = {
     return itemsToShow;
   }, // end func: filter_items_by_director
 
-  // Filter items by seen
+  /*!
+   * Filter items by selected seen status
+   */
   filter_items_by_seen(allItems, seen) {
     // Check if seen is set to "all" and return all items if it is
     if (seen === 'all') return allItems;
@@ -559,7 +711,9 @@ const PLEX = {
     return itemsToShow;
   },
 
-  // Change sort
+  /*!
+   * Change the selected sort order
+   */
   change_sort(argNewSortKey) {
     // Init the new sort key as title
     let newSortKey = 'title';
@@ -617,7 +771,9 @@ const PLEX = {
     PLEX.display_section(PLEX.current_section.key);
   }, // end func: change_sort
 
-  // Change genre
+  /*!
+   * Change the selected genre
+   */
   change_genre(genre) {
     // Check if the genre is set and skip if not
     if (typeof genre === 'undefined' || genre === PLEX.current_genre) return;
@@ -632,7 +788,9 @@ const PLEX = {
     PLEX.display_section(PLEX.current_section.key);
   }, // end func: change_genre
 
-  // Change director
+  /*!
+   * Change the selected director
+   */
   change_director(director) {
     // Check if the director is set and skip if not
     if (typeof director === 'undefined' || director === PLEX.current_director)
@@ -645,7 +803,9 @@ const PLEX = {
     PLEX.display_section(PLEX.current_section.key);
   }, // end func: change_director
 
-  // Change seen
+  /*!
+   * Change the selected seen status
+   */
   change_seen(seen) {
     // Check if seen is set and skip if not
     if (typeof seen === 'undefined' || seen === PLEX.current_seen) return;
@@ -657,7 +817,9 @@ const PLEX = {
     PLEX.display_section(PLEX.current_section.key);
   },
 
-  // Display item
+  /*!
+   * Display a selected item in a popup
+   */
   display_item(itemIDIn) {
     // Set item ID as int
     const itemID = parseInt(itemIDIn);
@@ -671,6 +833,122 @@ const PLEX = {
     // Set the popup HTML
     const popupHTML = PLEX.generate_item_content();
 
+    // Set popup container HTML
+    PLEX._popup_container.innerHTML = popupHTML;
+
+    // Listen for click on footer items
+    PLEX._popup_container
+      .querySelectorAll('#popup-footer span')
+      .forEach(footerItem =>
+        footerItem.addEventListener('click', () => {
+          // Display the selected item
+          PLEX.display_item(footerItem.dataset.item);
+        })
+      );
+
+    // Add event listener to the seasons list items
+    const popupSeasonSeasonsUl = document.querySelector(
+      '#popup_seasons_seasons'
+    );
+    if (popupSeasonSeasonsUl) {
+      popupSeasonSeasonsUl
+        .querySelectorAll('li')
+        .forEach(popupSeasonSeasonsLi =>
+          popupSeasonSeasonsLi.addEventListener('click', seasonEvent => {
+            // Set the current target
+            const { target } = seasonEvent;
+            // Remove the current class from the popup seasons seasons
+            popupSeasonSeasonsUl
+              .querySelectorAll('li.current')
+              .forEach(seasonsListLi => {
+                seasonsListLi.classList.remove('current');
+              });
+
+            // Add current class to this element
+            if (!target.classList.contains('current'))
+              target.classList.add('current');
+
+            // Get the current season key
+            const seasonKey = target.dataset.season;
+
+            // Get the current season data
+            const season = PLEX.current_item.seasons[seasonKey];
+
+            // Init the season episodes list
+            let innerHTML = '<ul>';
+
+            // Loop through the episode sort order
+            season.episode_sort_order.forEach(key => {
+              // Get the episode data
+              const episode = season.episodes[key];
+
+              // Add the episode data to the season episodes list
+              innerHTML += `<li data-season="${season.key}" data-episode="${episode.key}">${episode.index}. ${episode.title}</li>`;
+            });
+
+            // End the season episode list
+            innerHTML += '</ul>';
+
+            // Update the seasons episodes inner HTML
+            document.querySelector(
+              '#popup_seasons_episodes'
+            ).innerHTML = innerHTML;
+
+            // Add event listener to the episodes list items
+            const popupSeasonEpisodesUl = document.querySelector(
+              '#popup_seasons_episodes'
+            );
+            if (popupSeasonEpisodesUl) {
+              popupSeasonEpisodesUl
+                .querySelectorAll('li')
+                .forEach(popupSeasonEpisodesLi =>
+                  popupSeasonEpisodesLi.addEventListener(
+                    'click',
+                    episodeEvent => {
+                      // Set the current target
+                      const episodeTarget = episodeEvent.target;
+                      // Remove the current class from the popup seasons episodes
+                      popupSeasonEpisodesUl
+                        .querySelectorAll('li.current')
+                        .forEach(episodesListLi => {
+                          episodesListLi.classList.remove('current');
+                        });
+
+                      // Add current class to this element
+                      if (!episodeTarget.classList.contains('current'))
+                        episodeTarget.classList.add('current');
+
+                      // Get the current episode key
+                      const episodeKey = episodeTarget.dataset.episode;
+
+                      // Get the current episode data
+                      const episode = season.episodes[episodeKey];
+
+                      // Set the episode length in minutes
+                      const minutes = Math.round(episode.duration / 60000);
+
+                      // Set the episodes data
+                      const episodeInnerHTML = `<h5>${
+                        episode.title
+                      }</h5><p class="meta">${episode_tag(
+                        season,
+                        episode
+                      )} | ${minutes} ${inflect(minutes, 'minute')} | Rated ${
+                        episode.rating
+                      }</p><p>${episode.summary}</p>`;
+
+                      // Update the episode inner HTML
+                      document.querySelector(
+                        '#popup_seasons_episode'
+                      ).innerHTML = episodeInnerHTML;
+                    }
+                  )
+                );
+            } // end SEASONS EPISODES CLICK
+          })
+        );
+    } // end SEASONS SEASONS CLICK
+
     // Fade in the popup overlay
     FX.fadeIn(PLEX._popup_overlay, {
       duration: 400,
@@ -681,8 +959,11 @@ const PLEX = {
     // Set the popup height and display
     PLEX._popup_overlay.style.height = `${document.body.scrollHeight}px`;
 
-    // Set popup container HTML
-    PLEX._popup_container.innerHTML = popupHTML;
+    // Listen for click on popup overlay
+    PLEX._popup_overlay.addEventListener('click', () => {
+      // Hide the popup
+      PLEX.hide_item();
+    });
 
     // Set popup container styling
     PLEX._popup_container.style.opacity = 0;
@@ -697,8 +978,19 @@ const PLEX = {
 
     // Fade in popup container
     FX.fadeIn(PLEX._popup_container);
+
+    // Listen for click on popup close
+    PLEX._popup_container
+      .querySelector('.popup-close')
+      .addEventListener('click', () => {
+        // Hide the popup
+        PLEX.hide_item();
+      });
   }, // end func: display_item
 
+  /*!
+   * Generate the content to display in the popup
+   */
   generate_item_content() {
     // Set popup header
     const popupHeader = `<div id="popup-header"><p>Library &raquo; ${PLEX.current_section.title} &raquo; ${PLEX.current_item.title}</p><p><span class="popup-close">Close</span></p></div>`;
@@ -735,14 +1027,10 @@ const PLEX = {
     popupFooter += '<div class="clear"></div></div>';
 
     const _img = currentItem.querySelector('img'); // Get the current item image
-    let imgHeight = ''; // Init the image height
     // Check if the image dataset-src is set
     if (_img.dataset.src !== undefined) {
       _img.src = _img.dataset.src; // Set the image source
       _img.removeAttr('data-src'); // Remove the dataset-src
-    } else {
-      // dataset-src isn't set. Get image height
-      imgHeight = _img.height; // Set the image height
     }
 
     // Set the image thumb
@@ -892,45 +1180,14 @@ const PLEX = {
       // Start the season browser
       popupContent += `<div id="popup_seasons"><h4>Season Browser</h4><article><section id="popup_seasons_seasons"><ul>`;
 
-      // Loop through the seasons
-      $.each(PLEX.current_item.season_sort_order, function(i, key) {
+      // Loop through the seasons sort order
+      PLEX.current_item.season_sort_order.forEach(key => {
         const season = PLEX.current_item.seasons[key];
         popupContent += `<li data-season="${season.key}">${season.title}</li>`;
       });
 
       // Start the season episodes
       popupContent += `</ul></section><section id="popup_seasons_episodes"></section><section id="popup_seasons_episode"></section></article></div>`;
-
-      $('#popup_seasons_seasons li').live('click', function() {
-        $('#popup_seasons_seasons li').removeClass('current');
-        $(this).addClass('current');
-        const season_key = $(this).attr('data-season');
-        const season = PLEX.current_item.seasons[season_key];
-        let html = '<ul>';
-        $.each(season.episode_sort_order, function(i, key) {
-          const episode = season.episodes[key];
-          html += `<li data-season="${season.key}" data-episode="${episode.key}">${episode.index}. ${episode.title}</li>`;
-        });
-        html += '</ul>';
-        $('#popup_seasons_episodes').html(html);
-      });
-
-      $('#popup_seasons_episodes li').live('click', function() {
-        $('#popup_seasons_episodes li').removeClass('current');
-        $(this).addClass('current');
-        const season_key = $(this).attr('data-season');
-        const episode_key = $(this).attr('data-episode');
-        const season = PLEX.current_item.seasons[season_key];
-        const episode = season.episodes[episode_key];
-        const minutes = Math.round(episode.duration / 60000);
-        const html = `<h5>${episode.title}</h5><p class="meta">${episode_tag(
-          season,
-          episode
-        )} | ${minutes} ${inflect(minutes, 'minute')} | Rated ${
-          episode.rating
-        }</p><p>${episode.summary}</p>`;
-        $('#popup_seasons_episode').html(html);
-      });
     } // end SEASON BROWSER
 
     popupContent += '</div>';
@@ -938,7 +1195,9 @@ const PLEX = {
     return `${popupHeader}<div id="popup-outer"><div id="popup-inner">${popupSidebar}${popupContent}<div class="clear"></div></div>${popupFooter}</div>`;
   }, // end func: generate_item_content
 
-  // Hide item
+  /*!
+   * Hide the currently open popup
+   */
   hide_item() {
     PLEX.popup_visible = false; // Set popup visible to false
     window.location.hash = PLEX.current_section.key; // Set hash to current section
@@ -946,6 +1205,9 @@ const PLEX = {
     FX.fadeOut(PLEX._popup_container); // Fade out popup container
   }, // end func: hide_item
 
+  /*!
+   * Run plex class (constructor)
+   */
   run() {
     if (!PLEX.data_loaded) {
       // No data loaded. Fetch data file
@@ -954,8 +1216,18 @@ const PLEX = {
           // Handle data
           if (response.ok) {
             response.text().then(data => {
-              eval(data); // unpack
-              PLEX.load_data(raw_plex_data);
+              // Remove starting string
+              let rawPlexData = data
+                .replace('var raw_plex_data = ', '')
+                .trimStart();
+              // Remove semi-colon from end
+              rawPlexData = rawPlexData
+                .trimEnd()
+                .substring(0, rawPlexData.length - 1);
+              // Parse the plex data
+              rawPlexData = JSON.parse(rawPlexData);
+              // Load the data into the script
+              PLEX.load_data(rawPlexData);
               return PLEX.run();
             });
           } else {
@@ -969,6 +1241,21 @@ const PLEX = {
           console.error(error);
         });
       return;
+    }
+
+    // Check for menu status
+    const toggleMenu = document.querySelector('#toggle_sidebar');
+    const sidebarMenu = document.querySelector('#sidebar-menu');
+    const menuStatus = localStorage.getItem('peMenuStatus');
+    if (menuStatus) {
+      // Check if menu status is closed
+      if (menuStatus === 'closed') {
+        // Close the menu
+        sidebarMenu.style.display = 'none';
+
+        // Change the toggle text
+        toggleMenu.innerHTML = 'Menu';
+      }
     }
 
     // Get/Set Elements
@@ -1001,125 +1288,115 @@ const PLEX = {
     PLEX._last_updated.innerText = PLEX.last_updated;
     PLEX.display_sections_list();
 
-    // Add event listeners
+    /*
+     * Add event listeners
+     */
+
+    // Listen for click on section list items
     PLEX._sections_list.querySelectorAll('li').forEach(sectionsListItem =>
       sectionsListItem.addEventListener('click', () => {
+        // Display the selected section
         PLEX.display_section(sectionsListItem.dataset.section);
       })
     );
 
-    $('li', PLEX._sorts_list).click(function() {
-      PLEX.change_sort($(this).attr('data-sort'));
-    });
+    // Listen for click on sort list items
+    PLEX._sorts_list.querySelectorAll('li').forEach(sortListItem =>
+      sortListItem.addEventListener('click', () => {
+        // Change the selected sort
+        PLEX.change_sort(sortListItem.dataset.sort);
+      })
+    );
 
-    $('li', PLEX._genre_list).live('click', function() {
-      PLEX.change_genre($(this).attr('data-genre'));
-    });
-
-    $('li', PLEX._director_list).live('click', function() {
-      PLEX.change_director($(this).attr('data-director'));
-    });
-
-    $('li', PLEX._seen_list).live('click', function() {
-      PLEX.change_seen($(this).attr('data-seen'));
-    });
-
-    $('#genre_show_all').live('click', function() {
-      PLEX.show_all_genres = true;
-      $('.genre_hidden').show();
-      $('#genre_show_all').hide();
-      $('#genre_hide_all').show();
-    });
-
-    $('#genre_hide_all').live('click', function() {
-      PLEX.show_all_genres = false;
-      $('.genre_hidden').hide();
-      $('#genre_hide_all').hide();
-      $('#genre_show_all').show();
-    });
-
-    $('#director_show_all').live('click', function() {
-      PLEX.show_all_directors = true;
-      $('.director_hidden').show();
-      $('#director_show_all').hide();
-      $('#director_hide_all').show();
-    });
-
-    $('#director_hide_all').live('click', function() {
-      PLEX.show_all_directors = false;
-      $('.director_hidden').hide();
-      $('#director_hide_all').hide();
-      $('#director_show_all').show();
-    });
-
-    // Keyup on filter input
+    // Keyup on filter (search) input
     PLEX._section_filter.addEventListener('keyup', () => {
+      // Display the filtered items in the section
       PLEX.display_section(PLEX.current_section.key);
     });
 
-    $('li', PLEX._item_list).live('click', function() {
-      PLEX.display_item($(this).attr('data-item'));
-    });
-
-    $('#popup-footer span').live('click', function() {
-      PLEX.display_item($(this).attr('data-item'));
-    });
-
-    PLEX._popup_overlay.click(function() {
-      PLEX.hide_item();
-    });
-
-    $(document).keyup(function(event) {
+    // Listen for keyup on the document
+    document.addEventListener('keyup', event => {
+      // If shift key, meta key, alt key, or control key was pressed, skip
       if (event.shiftKey || event.metaKey || event.altKey || event.ctrlKey)
         return;
+
+      // Check which key was pressed and fire function if match found
       switch (event.which) {
         case 27: // esc
         case 88: // x
           PLEX.hide_item();
           break;
-        case 75: // k
+        case 74: // j
+        case 37: // arrow left
           if (PLEX.previous_item_id > 0) {
             PLEX.display_item(PLEX.previous_item_id);
           }
           break;
-        case 74: // j
+        case 75: // k
+        case 39: // arrow right
           if (PLEX.next_item_id > 0) {
             PLEX.display_item(PLEX.next_item_id);
           } else if (!PLEX.popup_visible) {
             // Show first item if none others
-            const first_item = parseInt(
-              $(':first', PLEX._item_list).attr('data-item')
+            const firstItem = parseInt(
+              PLEX._item_list.querySelector('li:first-child').dataset.item
             );
-            if (first_item > 0) PLEX.display_item(first_item);
+            // firstItem = parseInt(firstItem[0].dataset.item);
+            if (firstItem > 0) PLEX.display_item(firstItem);
           }
+          break;
+        default:
           break;
       }
     });
 
-    $('.popup-close').live('click', function() {
-      PLEX.hide_item();
-    });
+    // Listen for click on toggle menu
+    toggleMenu.addEventListener('click', () => {
+      // Check if menu is closed
+      if (document.querySelector('#sidebar-menu').style.display === 'none') {
+        // Open the menu
+        sidebarMenu.style.display = 'block';
 
-    $('#toggle_sidebar').click(function() {
-      $('#sidebar-menu').toggle();
-      if ($('#toggle_sidebar').html() == 'Close Menu') {
-        $('#toggle_sidebar').html('Menu');
+        // Change the toggle text
+        toggleMenu.innerHTML = 'Close Menu';
+
+        // Update local storage menu state
+        localStorage.setItem('peMenuStatus', 'open');
       } else {
-        $('#toggle_sidebar').html('Close Menu');
+        // Close the menu
+        sidebarMenu.style.display = 'none';
+
+        // Change the toggle text
+        toggleMenu.innerHTML = 'Menu';
+
+        // Update local storage menu state
+        localStorage.setItem('peMenuStatus', 'closed');
       }
-      return false;
     });
 
+    // Get the window hash
     const { hash } = window.location;
-    if (hash != '') {
+    // Check if the hash is empty
+    if (hash !== '') {
+      // Set regex to only return numbers
       const regex = new RegExp('#([0-9]+)/?([0-9]+)?/?');
+
+      // Execute regex to return array of set number(s)
       const m = regex.exec(hash);
-      const m1 = parseInt(m[1]);
-      const m2 = parseInt(m[2]);
-      if (m1 > 0) PLEX.display_section(m1);
-      if (m2 > 0) PLEX.display_item(m2);
+
+      // Select display if valid regex match
+      if (m !== null) {
+        const m1 = parseInt(m[1]); // Set match 1 (section)
+        const m2 = parseInt(m[2]); // Set match 2 (item)
+        if (m1 > 0) PLEX.display_section(m1); // If section is valid, display section
+        if (m2 > 0) PLEX.display_item(m2); // If item is valid, display item
+      } else {
+        // Trigger "click" of first section
+        PLEX._sections_list.querySelector('li:first-child').click();
+      }
     } else {
-      $('li:first', PLEX._sections_list).click();
+      // Trigger "click" of first section
+      PLEX._sections_list.querySelector('li:first-child').click();
     }
   }, // end func: run
 }; // end class: PLEX

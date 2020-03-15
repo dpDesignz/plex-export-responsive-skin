@@ -65,12 +65,23 @@ strong {
 
 /* SIDEBAR //////////////////////////////////////////////////////////////////////////*/
 
-#toggle_sidebar {
-	display: none;
-}
-
 #sidebar {
 	background-color: #e7ebed;
+}
+
+#toggle_sidebar {
+	display: inline-flex;
+	width: 100%;
+	padding: 8px 0 0 13px;
+	color: hsl(31, 100%, 56%);
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+#toggle_sidebar:hover {
+	text-decoration: underline;
 }
 
 .sidebar-section h2 {
