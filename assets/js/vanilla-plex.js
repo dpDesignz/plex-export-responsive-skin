@@ -587,7 +587,7 @@ const PLEX = {
         item.thumb === false ? 'assets/images/default.png' : item.thumb; // Set the thumb
 
       // Set the data to the innerHTML
-      innerHTML += `<li data-item="${item.key}" class="item"><img src="${thumb}" width="150" /><main><h4>${item.title}</h4></main></li>`;
+      innerHTML += `<li data-item="${item.key}" class="item"><img src="${thumb}" loading="lazy" width="150" /><main><h4>${item.title}</h4></main></li>`;
 
       numItems += 1; // Increment the number of items
     });
@@ -1080,7 +1080,7 @@ const PLEX = {
     popupSidebarMeta += '</ul>';
 
     // Init the popup sidebar
-    const popupSidebar = `<div id="popup-sidebar"><img src="${imgThumb}" />${popupSidebarMeta}</div>`;
+    const popupSidebar = `<div id="popup-sidebar"><img src="${imgThumb}" loading="lazy" />${popupSidebarMeta}</div>`;
 
     // Init the rating tag
     let ratingTag = '';
