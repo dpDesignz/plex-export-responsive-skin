@@ -45,6 +45,7 @@ const PLEX = {
       PLEX.sections[sectionKey] = aData.sections[sectionKey]; // Set each section
     });
     PLEX.total_items = aData.total_items; // Set the total items
+    PLEX.footer_total_items = aData.total_items; // Set the total items
     PLEX.section_display_order = aData.section_display_order; // Set the section display order
     PLEX.last_updated = aData.last_updated; // Set the last update dtm
     PLEX.data_loaded = true; // Set the data loaded bool
@@ -587,7 +588,7 @@ const PLEX = {
         item.thumb === false ? 'assets/images/default.png' : item.thumb; // Set the thumb
 
       // Set the data to the innerHTML
-      innerHTML += `<li data-item="${item.key}" class="item"><img src="${thumb}" loading="lazy" width="150" /><main><h4>${item.title}</h4></main></li>`;
+      innerHTML += `<li data-item="${item.key}" class="item"><img src="${thumb}" loading="lazy" width="150" alt="${item.title} Poster Art" /><section><h4>${item.title}</h4></section></li>`;
 
       numItems += 1; // Increment the number of items
     });
@@ -1044,7 +1045,7 @@ const PLEX = {
       const minutes = Math.round(PLEX.current_item.duration / 60000); // Set the item minutes
 
       // Add duration to the popup sidebar meta
-      popupSidebarMeta += `<li><strong>Duration:</strong> ${minutes} ${inflect(
+      popupSidebarMeta += `<li id="meta-duration"><strong>Duration:</strong> ${minutes} ${inflect(
         minutes,
         'minute'
       )}</li>`;
@@ -1052,27 +1053,27 @@ const PLEX = {
 
     // Check if the current item has a studio set and add it to the popup sidebar meta
     if (PLEX.current_item.studio !== false)
-      popupSidebarMeta += `<li><strong>Studio:</strong> ${PLEX.current_item.studio}</li>`;
+      popupSidebarMeta += `<li id="meta-studio"><strong>Studio:</strong> ${PLEX.current_item.studio}</li>`;
 
     // Check if the current item has a release year set and add it to the popup sidebar meta
     if (PLEX.current_item.release_year !== false)
-      popupSidebarMeta += `<li><strong>Released:</strong> ${PLEX.current_item.release_year}</li>`;
+      popupSidebarMeta += `<li id="meta-released"><strong>Released:</strong> ${PLEX.current_item.release_year}</li>`;
 
     // Check if the current item has a content rating set and add it to the popup sidebar meta
     if (PLEX.current_item.content_rating !== false)
-      popupSidebarMeta += `<li><strong>Rated:</strong> ${PLEX.current_item.content_rating}</li>`;
+      popupSidebarMeta += `<li id="meta-rated"><strong>Rated:</strong> ${PLEX.current_item.content_rating}</li>`;
 
     // Check if the current item has multiple seasons set and add it to the popup sidebar meta
     if (PLEX.current_item.num_seasons > 0)
-      popupSidebarMeta += `<li><strong>Seasons:</strong> ${PLEX.current_item.num_seasons}</li>`;
+      popupSidebarMeta += `<li id="meta-seasons"><strong>Seasons:</strong> ${PLEX.current_item.num_seasons}</li>`;
 
     // Check if the current item has multiple episodes set and add it to the popup sidebar meta
     if (PLEX.current_item.num_episodes > 0)
-      popupSidebarMeta += `<li><strong>Episodes:</strong> ${PLEX.current_item.num_episodes}</li>`;
+      popupSidebarMeta += `<li id="meta-episodes"><strong>Episodes:</strong> ${PLEX.current_item.num_episodes}</li>`;
 
     // Check if the current item has a view count set and add it to the popup sidebar meta
     if (PLEX.current_item.view_count > 0)
-      popupSidebarMeta += `<li><strong>Watched:</strong> ${
+      popupSidebarMeta += `<li id="meta-watched"><strong>Watched:</strong> ${
         PLEX.current_item.view_count
       } ${inflect(PLEX.current_item.view_count, 'time')}</li>`;
 
@@ -1127,19 +1128,19 @@ const PLEX = {
 
       // Check if there are any directors and add them to the popup content
       if (PLEX.current_item.director)
-        popupContent += `<li><strong>Directed by:</strong> ${PLEX.current_item.director.join(
+        popupContent += `<li id="meta-director"><strong>Directed by:</strong> ${PLEX.current_item.director.join(
           ', '
         )}</li>`;
 
       // Check if there are any roles and add them to the popup content
       if (PLEX.current_item.role)
-        popupContent += `<li><strong>Starring:</strong> ${PLEX.current_item.role.join(
+        popupContent += `<li id="meta-starring"><strong>Starring:</strong> ${PLEX.current_item.role.join(
           ', '
         )}</li>`;
 
       // Check if there are any genres and add them to the popup content
       if (PLEX.current_item.genre)
-        popupContent += `<li><strong>Genre:</strong> ${PLEX.current_item.genre.join(
+        popupContent += `<li id="meta-genre"><strong>Genre:</strong> ${PLEX.current_item.genre.join(
           ', '
         )}</li>`;
 
@@ -1260,6 +1261,7 @@ const PLEX = {
 
     // Get/Set Elements
     PLEX._total_items = document.querySelector('#total_items');
+    PLEX._footer_total_items = document.querySelector('#footer_total_items');
     PLEX._last_updated = document.querySelector('#last_updated');
     PLEX._sections_list = document.querySelector('#plex_section_list');
     PLEX._sorts_list = document.querySelector('#plex_sort_list');
@@ -1285,6 +1287,7 @@ const PLEX = {
 
     // Set page variables
     PLEX._total_items.innerText = number_format(PLEX.total_items);
+    PLEX._footer_total_items.innerText = number_format(PLEX.total_items);
     PLEX._last_updated.innerText = PLEX.last_updated;
     PLEX.display_sections_list();
 

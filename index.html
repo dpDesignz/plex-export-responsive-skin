@@ -7,11 +7,13 @@
 	<meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1" />
 	<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 
-	<link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/style.css" />
+	<!-- <link rel="stylesheet" href="assets/css/darkmode.css" /> -->
 
 	<script src="assets/js/jquery.1.4.4.min.js"></script>
 	<script src="assets/js/utils.js"></script>
 	<script src="assets/js/plex.js"></script>
+	<!-- <script src="assets/js/vanilla-plex.js"></script> -->
 	<script>
 		ready(() => {
 			PLEX.run();
@@ -24,9 +26,9 @@
 		<h1><span>Plex Export</span></h1>
 		<p><span>Library Items</span> <strong id="total_items"></strong></p>
 	</header><!-- end #header -->
-	<main class="container">
+	<div class="container">
 		<aside id="sidebar">
-			<a id="toggle_sidebar">Close Menu</a>
+			<a id="toggle_sidebar">Menu</a>
 			<section id="sidebar-menu">
 				<div class="sidebar-section">
 					<h2>Library</h2>
@@ -65,7 +67,7 @@
 						<p>Please wait while this section loads...</p>
 					</section>
 					<section id="search">
-						<input type="text" />
+						<input type="text" placeholder="Search..." role="Search" />
 					</section>
 				</div>
 			</section><!-- end .section-header -->
@@ -76,10 +78,10 @@
 				<ul></ul>
 			</div>
 		</main><!-- end #main -->
-	</main><!-- end #container -->
+	</div><!-- end #container -->
 	<footer id="footer">
 		<p><a href="https://www.plex.tv/">Plex</a> + <a href="http://hybridlogic.co.uk/code/standalone/plex-export/">Plex
-				Export</a> | <span id="last_updated"></span></p>
+				Export</a> | <span id="last_updated"></span> | Library Items <strong id="footer_total_items"></strong></p>
 	</footer><!-- end #footer -->
 	<div id="popup-overlay"></div>
 	<div id="popup-container"></div>

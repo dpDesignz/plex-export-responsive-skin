@@ -10,7 +10,7 @@ body {
 	font-family: "Arial","Helvetica",sans-serif; font-size: 12px; color: #272B2D;
 	background: #9A9A9A url(../images/background.jpg);
 }
-body > main.container {
+body > div.container {
 	display: grid; grid-template-columns: 200px 1fr; grid-gap: 2px;
 	box-shadow: 0px 0px 20px 10px rgba(0,0,0,0.65);
 }
@@ -31,14 +31,12 @@ strong {
 	clear: both;
 }
 
-
-
 /* HEADER //////////////////////////////////////////////////////////////////////////*/
 
 #header {
 	display: grid; grid-template-columns: repeat(2, 1fr);
 	height: 95px;
-	background: #282B2E;
+	background-color: #282B2E;
 	border-bottom: 5px solid #FF9421;
 }
 #header h1 {
@@ -62,6 +60,21 @@ strong {
 	margin: -6px -6px 0 0;
 	font-size: 80px; color: #3E4146;
 }
+#header #search {
+	display: inline-flex;
+	justify-content: end;
+	align-items: end;
+	padding-right: 10px;
+	padding-bottom: 5px;
+}
+#header #search input {
+	width: 180px;
+	padding: 4px 3px;
+	border: 1px solid #C9CACB;
+	border-radius: 4px;
+	color: #787878;
+	background-color: #FFFFFF;
+}
 
 /* SIDEBAR //////////////////////////////////////////////////////////////////////////*/
 
@@ -70,7 +83,7 @@ strong {
 }
 
 #toggle_sidebar {
-	display: inline-flex;
+	display: none;
 	width: 100%;
 	padding: 8px 0 0 13px;
 	color: hsl(31, 100%, 56%);
@@ -113,6 +126,13 @@ strong {
 .sections-list .show {
 	background-image: url(../images/icon-show.png);
 }
+.sections-list.no-icons .movie,
+.sections-list.no-icons .show {
+	background-image: none;
+}
+.sections-list.no-icons li {
+	padding: 3px 16px;
+}
 .sections-list li span {
 	grid-area: section-caption;
 }
@@ -124,7 +144,7 @@ strong {
 	display: block;
 	margin-top: -2px; padding: 3px 4px;
 	font-size: 10px; font-style: normal; color: #A7A7A7; text-align: center;
-	background: #FFF;
+	background-color: #FFFFFF;
 	border-radius: 8px;
 }
 .sections-list li em {
@@ -139,7 +159,7 @@ strong {
 }
 .sections-list .current em,
 .generic-list .current em {
-	background: #E7EBED;
+	background-color: #E7EBED;
 }
 .sections-list li:hover,
 .generic-list li:hover {
@@ -162,7 +182,7 @@ strong {
 #section-header div {
 	display: grid; grid-template-columns: 1fr 250px;
 	padding: 7px 14px 9px;
-	background: #E7EBED;
+	background-color: #E7EBED;
 }
 #section-header h2 {
 	padding-bottom: 4px;
@@ -177,7 +197,7 @@ strong {
 	padding: 4px 3px;
 	border: 1px solid #C9CACB; border-radius: 4px;
 	color: #787878;
-	background: #FFF;
+	background-color: #FFF;
 }
 
 #item-list-status {
@@ -191,7 +211,7 @@ strong {
 }
 
 #item-list {
-	margin: 20px 11px;
+	margin: 20px 0px;
 }
 #item-list ul {
 	display: flex; flex-wrap: wrap;
@@ -199,26 +219,35 @@ strong {
 }
 .item {
 	display:grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr;
-	width: 120px;
-	margin: 0 12px 24px;
-	background: #E7EBED;
+	width: 150px;
+	margin: 0 12px 16px;
+	background-color: #E7EBED; border-radius: 5px 5px 0 0;
 	color: #262B2C; text-shadow: 1px 1px 2px #BBB;
 	box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.25);
 }
 .item img {
 	width: 100%; height: auto;
+	border-radius: 3px 3px 0 0;
 }
+.item section,
 .item main {
-	display: flex; align-items: center;
+	display: flex;
+	justify-content: center; align-items: center;
 }
 .item h4 {
 	width: 100%;
+	max-width: 15ch;
 	padding: 8px 7px 10px;
-	font-size: 14px; text-align: center;
+	font-size: 14px; text-align: center; white-space: nowrap;
+	overflow: hidden; text-overflow: ellipsis;
 }
 .item:hover {
-	background: #FF9421;
-	color: #FFF; text-shadow: 1px 1px 2px #555; cursor: pointer;
+	background-color: #FF9421;
+	color: #FFFFFF; text-shadow: 1px 1px 2px #555; cursor: pointer;
+}
+.item:hover h4 {
+	white-space: normal;
+	overflow: visible;
 }
 
 /* POPUP //////////////////////////////////////////////////////////////////////////*/
@@ -227,22 +256,22 @@ strong {
 	display: none;
 	position: absolute; top: 0; left: 0;
 	width: 100%; height: 100%;
-	background: #282B2E; opacity: 0.6;
+	background-color: #282B2E; opacity: 0.6;
 }
 #popup-container {
 	display: none;
-	position: absolute; top: 0; left: 0;
+	position: absolute; top: 0; left: 0; z-index: 9999;
 	width: 900px; max-height: 500px;
 	box-shadow: 0 0 8px #333538;
 }
 #popup-outer {
 	margin-top: -12px;
-	background: #FF9421;
+	background-color: #FF9421;
 }
 #popup-header {
 	display: grid; grid-template-columns: 1fr 40px;
 	padding: 8px 13px 8px 13px;
-	background: #E7EBED;
+	background-color: #E7EBED;
 	border-bottom: 12px solid #E7EBED;
 }
 #popup-header span.popup-close {
@@ -269,13 +298,14 @@ strong {
 #popup-inner {
 	display: grid; grid-template-columns: 150px 1fr; grid-gap: 15px;
 	padding: 14px;
-	background: #FFF;
+	background-color: #FFF;
 	box-shadow: 0 0 4px #333538;
 }
 
 #popup-sidebar img {
 	width: 100%; height: auto;
 	box-shadow: 0 0 4px #333538;
+	border-radius: 2px;
 }
 #popup-sidebar ul {
 	margin: 14px 0;
@@ -290,7 +320,7 @@ strong {
 #popup-content .rating {
 	display: block;
 	width: 100px; height: 20px;
-	background: url(../images/stars.png) no-repeat bottom right;
+	background-color: url(../images/stars.png) no-repeat bottom right;
 }
 
 #popup-content .rating_plex.rating_50 { background-position: -98px 0; }
@@ -327,6 +357,19 @@ strong {
 	padding-top: 10px;
 	font-size: 11px; line-height: 17px;
 }
+#popup-content #popup-summary p {
+	font-size: 14px;
+}
+#popup-content #popup-summary p::before {
+	content: open-quote;
+}
+#popup-content #popup-summary p::after {
+	content: close-quote;
+}
+#popup-content #popup-summary p::before,
+#popup-content #popup-summary p::after {
+	font-size: 1.5em;
+}
 #popup-content-meta {
 	margin-top: 10px;
 	font-size: 11px;
@@ -337,6 +380,15 @@ strong {
 }
 #popup-content-meta strong {
 	font-weight: bold;
+}
+#popup-content-meta #meta-starring {
+  max-width: 100ch;
+  white-space: nowrap; text-overflow: ellipsis;
+  overflow: hidden;
+}
+#popup-content-meta #meta-starring:hover {
+	white-space: normal;
+	overflow: visible;
 }
 
 #popup_seasons {
@@ -358,7 +410,7 @@ strong {
 }
 #popup_seasons li.current,
 #popup_seasons li:hover {
-	background: #FF9421;
+	background-color: #FF9421;
 	color: #FFF;
 	cursor: pointer;
 }
@@ -393,7 +445,7 @@ strong {
 #footer {
 	clear: both;
 	padding: 14px;
-	background: #282B2E;
+	background-color: #282B2E;
 	border-top: 5px solid #FF9421;
 	color: #E7EBED;
 }
@@ -413,7 +465,7 @@ strong {
 		height: 12px;
 		/* width: 305px; */
 		text-align: right;
-		background: #FF9421;
+		background-color: #FF9421;
 	}
 	#header p span,
 	#header p strong {
@@ -424,7 +476,7 @@ strong {
 	#header p strong {
 		color: #FFF; font-weight: bold;
 	}
-	body > main.container {
+	body > div.container {
 		grid-template-columns: 1fr;
 	}
 
@@ -432,7 +484,7 @@ strong {
 		display: block;
 		padding: 10px;
 		font-size: 1.3em; font-weight: 600; text-align: center;
-		background: #FFDAB2;
+		background-color: #FFDAB2;
 	}
 	#toggle_sidebar:link,
 	#toggle_sidebar:visited {
@@ -469,6 +521,10 @@ strong {
 	#popup-inner {
 		grid-template-columns: 1fr;
 	}
+	#popup-sidebar img {
+		max-width: 150px;
+	}
+	#popup-sidebar,
 	#popup-sidebar ul {
 		text-align: center;
 	}
@@ -479,8 +535,12 @@ strong {
 	#popup-content header {
 		grid-template-columns: 1fr;
 	}
-	#popup-content h3 {
+	#popup-content h3,
+	#popup-content h4 {
 		text-align: center;
+	}
+	#popup-content-meta #meta-starring {
+		max-width: 75vw;
 	}
 	#popup_seasons article {
 		grid-template-columns: 1fr 2fr;
@@ -498,4 +558,26 @@ strong {
 	#popup_seasons_episode {
 		max-height: 300px; overflow: scroll;
 	}
+}
+
+/* IPAD PORTRAIT STYLING //////////////////////////////////////////////////////////////////////////*/
+
+@media only screen and (max-width: 770px) {
+	.item {
+		width: 90px;
+		margin: 5px;
+		box-shadow: 0px 3px 3px 1px rgba(0,0,0,0.25);
+	}
+	.item h4 {
+		max-width: 10ch;
+		font-size: 12px;
+	}
+
+	#popup-container {
+		max-width: 95vw;
+	}
+
+	#popup-content-meta #meta-starring {
+  max-width: 65vw;
+}
 }

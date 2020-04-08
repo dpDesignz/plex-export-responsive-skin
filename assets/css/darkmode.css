@@ -1,0 +1,112 @@
+/*
+	Plex Export Dark Mode Stylesheet
+	Author: Dragos Custura <>
+	Author: dpDesignz <webmaster@dpdesignz.co.nz>
+*/
+
+body {
+  color: #FFFFFF;
+  background: none;
+}
+.container {
+  background-color: #262626;
+}
+
+/* HEADER //////////////////////////////////////////////////////////////////////////*/
+
+#header {
+  border-bottom-color: #FF931F;
+}
+
+#header #search input {
+	width: 180px;
+	padding: 4px 3px;
+	border: 1px solid #262626; border-radius: 4px;
+	color: #787878;
+	background-color: #FFFFFF;
+}
+
+/* SIDEBAR //////////////////////////////////////////////////////////////////////////*/
+
+#sidebar {
+  background-color: #262626;
+}
+
+.sidebar-section h2 {
+  padding-bottom: 4px;
+	color: #FFFFFF;
+  border-bottom: 1px solid #FF931F;
+}
+
+.sections-list li em,
+.generic-list li em {
+  color: #FFFFFF;
+	background-color: #424242;
+}
+
+.sections-list .current,
+.generic-list .current {
+  color: #FF931F;
+	background-color: transparent;
+}
+.sections-list .current em,
+.generic-list .current em {
+	color: #262626;
+  background-color: #FF931F;
+}
+
+/* MAIN //////////////////////////////////////////////////////////////////////////*/
+
+#main {
+  border-color: #262626;
+}
+
+#section-header {
+  border-left: 1px solid #FF931F;
+	border-bottom-color: #FF931F;
+}
+#section-header div {
+	background-color: #262626;
+}
+#section-header h2 {
+	color: #FFFFFF;
+}
+
+.item {
+	background-color: #262626;
+	color: #FFFFFF; text-shadow: 1px 1px 1px #000000;
+	box-shadow: 0px 3px 3px 1px rgba(0,0,0,1);
+}
+
+/* POPUP //////////////////////////////////////////////////////////////////////////*/
+
+
+
+#popup-header {
+	background-color: #424242;
+}
+
+#popup-inner {
+	background-color: #000000;
+}
+
+#popup-sidebar li strong {
+  color: #FF931F;
+}
+
+#popup-content-meta strong {
+	color: #FF9421;
+}
+
+#popup_seasons,
+#popup_seasons section {
+	border-color: #424242;
+}
+
+/* IPHONE STYLING //////////////////////////////////////////////////////////////////////////*/
+
+@media only screen and (max-width: 480px) {
+  #sidebar-menu {
+		background-color: #262626;
+	}
+}
